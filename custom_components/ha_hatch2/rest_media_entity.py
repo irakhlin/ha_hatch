@@ -72,7 +72,6 @@ class RestMediaEntity(RestEntity, MediaPlayerEntity):
                 self._attr_state = MediaPlayerState.IDLE
         else:
             self._attr_state = MediaPlayerState.OFF
-        self._attr_sound_mode = self.rest_device.audio_track.name
         self._attr_volume_level = self.rest_device.volume / 100
         self._attr_device_info.update(sw_version=self.rest_device.firmware_version)
         self.async_write_ha_state()
@@ -110,7 +109,6 @@ class RestMediaEntity(RestEntity, MediaPlayerEntity):
         if track is None:
             track = self.none_track
         self.rest_device.set_audio_track(track)
-        self._attr_sound_mode = track
         if self.config_turn_on_media:
             self.turn_on()
 

@@ -22,7 +22,6 @@ class RiotMediaEntity(RestEntity, MediaPlayerEntity):
     def __init__(self, rest_device: RestIot):
         super().__init__(rest_device, "Media Player")
         self._attr_sound_mode_list = self.rest_device.favorite_names()
-        self._attr_sound_mode = self._attr_sound_mode_list[0]
         self._attr_supported_features = (
             MediaPlayerEntityFeature.PLAY
             | MediaPlayerEntityFeature.STOP
@@ -51,8 +50,15 @@ class RiotMediaEntity(RestEntity, MediaPlayerEntity):
         self.rest_device.set_favorite(self._attr_sound_mode_list[0])
 
     def select_sound_mode(self, sound_mode: str):
-        self._attr_sound_mode = sound_mode
         self.rest_device.set_favorite(sound_mode)
 
     def media_stop(self):
         self.rest_device.turn_off()
+
+    @property
+    def currently_playing(self):
+        if self.rest_device.is_playing:
+            track = self._attr_sound_mode
+            return track
+
+

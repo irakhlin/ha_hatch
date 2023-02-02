@@ -42,10 +42,11 @@ class RiotMediaEntity(RestEntity, MediaPlayerEntity):
             self._attr_state = MediaPlayerState.PLAYING
         else:
             self._attr_state = MediaPlayerState.IDLE
-        self._attr_sound_mode = self.rest_device.current_playing
-        self._attr_media_title = self.rest_device.audio_track.name
+        if self.rest_device.current_playing:
+            self._attr_sound_mode = self.rest_device.current_playing
+        if self.rest_device.audio_track:
+            self._attr_media_title = self.rest_device.audio_track.name
         self._attr_volume_level = self.rest_device.volume / 100
-        self._attr_extra_state_attributes["currently_playing"] = self._attr_sound_mode is not None
         self._attr_device_info.update(sw_version=self.rest_device.firmware_version)
         self.async_write_ha_state()
 

@@ -1,7 +1,7 @@
 from enum import Enum
 
 # Configuration Constants
-DOMAIN: str = "ha_hatch"
+DOMAIN: str = "ha_hatch2"
 
 API_VERSION: str = "1.19.4"
 

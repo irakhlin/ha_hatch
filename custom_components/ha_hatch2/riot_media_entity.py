@@ -40,6 +40,7 @@ class RiotMediaEntity(RestEntity, MediaPlayerEntity):
             self._attr_state = MediaPlayerState.IDLE
         self._attr_sound_mode = self.rest_device.audio_track
         self._attr_volume_level = self.rest_device.volume / 100
+        self._attr_currently_playing = self._attr_sound_mode
         self._attr_device_info.update(sw_version=self.rest_device.firmware_version)
         self.async_write_ha_state()
 
@@ -50,6 +51,7 @@ class RiotMediaEntity(RestEntity, MediaPlayerEntity):
         self.rest_device.set_favorite(self._attr_sound_mode_list[0])
 
     def select_sound_mode(self, sound_mode: str):
+        self._attr_sound_mode = sound_mode
         self.rest_device.set_favorite(sound_mode)
 
     def media_stop(self):
@@ -57,8 +59,7 @@ class RiotMediaEntity(RestEntity, MediaPlayerEntity):
 
     @property
     def currently_playing(self):
-        if self.rest_device.is_playing:
-            track = self._attr_sound_mode
-            return track
+        track = self._attr_sound_mode
+        return track
 
 

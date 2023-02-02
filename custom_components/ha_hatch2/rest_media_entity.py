@@ -34,6 +34,7 @@ class RestMediaEntity(RestEntity, MediaPlayerEntity):
             self._attr_sound_mode_list = list(
                 map(lambda x: x.name, REST_MINI_AUDIO_TRACKS[1:])
             )
+            self._attr_sound_mode = self._attr_sound_mode_list[0]
             self.none_track = RestMiniAudioTrack.NONE
             self._attr_supported_features = (
                 MediaPlayerEntityFeature.PAUSE
@@ -47,6 +48,7 @@ class RestMediaEntity(RestEntity, MediaPlayerEntity):
             self._attr_sound_mode_list = list(
                 map(lambda x: x.name, REST_PLUS_AUDIO_TRACKS[1:])
             )
+            self._attr_sound_mode = self._attr_sound_mode_list[0]
             self.none_track = RestPlusAudioTrack.NONE
             self._attr_supported_features = (
                 MediaPlayerEntityFeature.PAUSE
@@ -108,6 +110,7 @@ class RestMediaEntity(RestEntity, MediaPlayerEntity):
         if track is None:
             track = self.none_track
         self.rest_device.set_audio_track(track)
+        self._attr_sound_mode = track
         if self.config_turn_on_media:
             self.turn_on()
 

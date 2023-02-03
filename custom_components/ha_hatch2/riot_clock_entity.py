@@ -27,7 +27,12 @@ class RiotClockEntity(RestEntity, LightEntity):
         _LOGGER.debug(f"updating state:{self.rest_device}")
         if isinstance(self.rest_device, RestIot):
             self._attr_is_on = self.rest_device.is_clock_on
-        self._attr_brightness = round(self.rest_device.clock / 100 * 255.0, 0)
+        if self.rest_device.clock:
+            brit = int(self.rest_device.clock / 100) * 255
+            self._attr_brightness = brit
+        else:
+            self._attr_brightness = None
+#        self._attr_brightness = round(self.rest_device.clock / 100 * 255, 0)
         self.async_write_ha_state()
 
     def turn_on(self, **kwargs):

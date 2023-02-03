@@ -29,8 +29,8 @@ class RiotMediaEntity(RestEntity, MediaPlayerEntity):
             self._attr_sound_mode = previous_track
             self._attr_media_title = previous_track
         else:
-            self._attr_sound_mode = self._attr_sound_mode_list[0]
-            self._attr_media_title = self._attr_sound_mode_list[0]
+            self._attr_sound_mode = self._attr_sound_mode_list[-1]
+            self._attr_media_title = self._attr_sound_mode_list[-1]
         self._attr_supported_features = (
             MediaPlayerEntityFeature.PLAY
             | MediaPlayerEntityFeature.STOP
